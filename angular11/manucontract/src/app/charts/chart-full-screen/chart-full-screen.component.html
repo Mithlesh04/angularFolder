@@ -1,0 +1,21 @@
+<div class="overlay" [ngStyle]="{display: isModelOpen ? 'block' : 'none'}">
+
+  <div class="body">
+
+      <div class="container">
+         <div class="header">
+          <div style="justify-content: center;font-weight: 600;">{{ title }}</div>
+          <div class="close">
+            <button (click)="onCloseModal()">
+              <img src="./assets/charts/images/cross.png" alt="Close" title="Close" />
+            </button>
+          </div>
+         </div>
+
+         <ng-content></ng-content>
+
+      </div>
+
+  </div>
+
+</div>

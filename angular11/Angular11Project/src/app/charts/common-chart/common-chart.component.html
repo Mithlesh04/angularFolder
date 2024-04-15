@@ -1,0 +1,149 @@
+<div class="common-chart">
+
+  <div class="chart-title">
+    {{ chartData.title }}
+  </div>
+
+  <div class="chart-headers-list">
+    <div>
+      <ul class="chart-types-list">
+        <li
+          *ngFor="let availableChartType of availableChartTypes"
+          (click)="!availableChartType.isActive && onChartTypeClick(availableChartType)"
+        >
+          <img
+            class="{{availableChartType.isActive?'active-chart':''}}"
+            src={{availableChartType.chartUrl}}
+            title={{availableChartType.chartName}}
+          />
+        </li>
+      </ul>
+    </div>
+    <div class="btn-container">
+        <ng-template *ngIf="filteredBy.has(chartDataObject.name); then reset_btn"></ng-template>
+        <ng-template #reset_btn>
+          <button (click)="onResetBtnClick()" class="reset_back" title="Reset Your Filters">
+            <img src="./assets/charts/images/reset_back.png" alt="reset_back" />
+          </button>
+        </ng-template>
+        <ng-template *ngIf="!isError; then NO_ERROR_CHART"></ng-template>
+        <ng-template #NO_ERROR_CHART>
+          <div>
+            <button (click)="onFullScreen()" class="expand-btn" title="Expand">
+              <img src="./assets/charts/images/full_screen.svg" alt="Expand" />
+            </button>
+            <!-- <button (click)="onCSVBtnClick()" title="Download as CSV">
+              <img src="./assets/charts/images/download_csv.png" alt="download csv" />
+            </button> -->
+            <!-- <button (click)="onPdfBtnClick()" title="Download as PDF">
+              <img src="./assets/charts/images/download_pdf.png" alt="download pdf" />
+            </button> -->
+          </div>
+        </ng-template>
+    </div>
+  </div>
+
+  <div class="chart-area" >
+    <!-- pie hole will not update if we use the rest_chart instead of doughnut_chart -->
+    <ng-template *ngIf="chartData.chartName === 'Doughnut'; then DOUGHNUT_CHART else REST_CHART"></ng-template>
+    <ng-template #REST_CHART>
+      <google-chart
+        [type]="chartData.type"
+        [data]="chartData.data"
+        [options]="chartData.options"
+        [width]="chartData.width"
+        [height]="chartData.height"
+        (ready)="onReady($event)"
+        [dynamicResize]="true"
+        style="height: inherit;width: inherit;"
+        (error)="onError($event)"
+      ></google-chart>
+    </ng-template>
+    <ng-template #DOUGHNUT_CHART>
+      <google-chart
+        [type]="chartData.type"
+        [data]="chartData.data"
+        [options]="chartData.options"
+        [width]="chartData.width"
+        [height]="chartData.height"
+        (ready)="onReady($event)"
+        [dynamicResize]="true"
+        style="height: inherit;width: inherit;"
+        (error)="onError($event)"
+      ></google-chart>
+    </ng-template>
+  </div>
+</div>
+
+<app-chart-full-screen
+  (onChartCloseModel)="onChartCloseModel()"
+  [isModelOpen]="isModelOpen"
+  [title]="chartData.title"
+>
+
+<div class="common-chart m-modal">
+
+  <ng-template *ngIf="isModelOpen; then visibleChartModal;"></ng-template>
+  <ng-template #visibleChartModal>
+    <div class="chart-headers-list">
+      <div>
+        <ul class="chart-types-list">
+          <li
+            *ngFor="let availableChartType of availableChartTypes"
+            (click)="!availableChartType.isActive && onChartTypeClick(availableChartType)"
+          >
+            <img
+              class="{{availableChartType.isActive?'active-chart':''}}"
+              src={{availableChartType.chartUrl}}
+              title={{availableChartType.chartName}}
+            />
+          </li>
+        </ul>
+      </div>
+      <div class="btn-container">
+          <ng-template *ngIf="filteredBy.has(chartDataObject.name); then reset_btn"></ng-template>
+          <ng-template #reset_btn>
+            <button (click)="onResetBtnClick()" class="reset_back" title="Reset Your Filters">
+              <img src="./assets/charts/images/reset_back.png" alt="reset_back" />
+            </button>
+          </ng-template>
+
+
+      </div>
+    </div>
+
+    <div class="chart-area">
+      <!-- pie hole will not update if we use the rest_chart instead of doughnut_chart -->
+      <ng-template *ngIf="chartData.chartName === 'Doughnut'; then DOUGHNUT_CHART else REST_CHART"></ng-template>
+      <ng-template #REST_CHART>
+        <google-chart
+          [type]="chartData.type"
+          [data]="chartData.data"
+          [options]="chartData.options"
+          [width]="chartData.width"
+          [height]="chartData.height"
+          (ready)="onReady($event)"
+          [dynamicResize]="true"
+          [formatters]="myFormatters"
+          style="height: inherit;width: inherit;"
+        ></google-chart>
+      </ng-template>
+      <ng-template #DOUGHNUT_CHART>
+        <google-chart
+          [type]="chartData.type"
+          [data]="chartData.data"
+          [options]="chartData.options"
+          [width]="chartData.width"
+          [height]="chartData.height"
+          (ready)="onReady($event)"
+          [dynamicResize]="true"
+          style="height: inherit;width: inherit;"
+        ></google-chart>
+      </ng-template>
+    </div>
+  </ng-template>
+</div>
+
+
+
+</app-chart-full-screen>

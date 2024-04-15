@@ -1,0 +1,20 @@
+
+<div style="display: flex; justify-content: space-between;">
+   <google-chart 
+      [title]="title" 
+      [type]="type" 
+      [data]="data" 
+      [options]="options" 
+      [width]="width" 
+      [height]="height"
+      (ready)="onPieChartReady($event)" 
+      id="googlePieChart"
+   >
+   </google-chart>
+   <!-- <google-chart [title]="title" [type]="type2" [data]="data" [options]="options" [width]="width" [height]="height">
+      </google-chart> -->
+</div>
+<div>
+   <button (click)="pieDownloadPDF()">Download as PDF</button>
+   <button (click)="pieDownloadCSV()" style="margin-left: 15px;">Download as CSV</button>
+</div>

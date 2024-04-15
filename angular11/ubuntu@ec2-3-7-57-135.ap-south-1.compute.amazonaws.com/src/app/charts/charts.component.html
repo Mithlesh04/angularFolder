@@ -1,0 +1,28 @@
+<div class="download-section">
+  <div>
+    <button class="download export-as-excel" (click)="onExportToExcel()">Export to Excel</button>
+  </div>
+  <div>
+    <button class="download export-as-pdf" (click)="onExportToPdf()">Export to PDF</button>
+  </div>
+</div>
+<div class="app-charts">
+  <div *ngFor="let chart of dataProvider.ChartTypesMap">
+    <ng-template *ngIf="chart.type === 'CHART'; then CHART else KPI"></ng-template>
+    <ng-template #CHART>
+      <app-common-chart
+        [chartDataObject]=chart
+        [filteredBy]="filteredBy"
+        (onSelectChartSlice)="onSelectChartSlice($event)"
+      ></app-common-chart>
+    </ng-template>
+    <ng-template #KPI>
+      <div class="kpi_container">
+         <div class="kpi_title">{{ chart.title }}</div>
+         <div class="kpi_data_container">
+          <div class="kpi_data">{{ chart.data | number }}</div>
+         </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

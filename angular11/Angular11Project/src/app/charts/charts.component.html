@@ -1,0 +1,40 @@
+<div class="download-section">
+  <div>
+    <button class="download export-as-excel" (click)="onExportToExcel()">Export to Excel</button>
+  </div>
+  <div>
+    <button class="download export-as-pdf" (click)="onExportToPdf()">Export to PDF</button>
+  </div>
+
+  <app-chart-dropdown
+    [chartTypesMap]="dataProvider.ChartTypesMap"
+    (onFilterChartList)="onFilterChartList($event)"
+  ></app-chart-dropdown>
+
+</div>
+
+<div class="app-charts">
+  <ng-template ngFor let-chart [ngForOf]="dataProvider.ChartTypesMap">
+    <ng-template *ngIf="chart.isVisible; then chartVisible"></ng-template>
+    <ng-template #chartVisible>
+      <ng-template *ngIf="chart.type === 'CHART'; then CHART else KPI"></ng-template>
+      <ng-template #CHART>
+        <app-common-chart
+          [chartDataObject]=chart
+          [filteredBy]="filteredBy"
+          (onSelectChartSlice)="onSelectChartSlice($event)"
+        ></app-common-chart>
+      </ng-template>
+      <ng-template #KPI>
+        <div class="kpi_container">
+           <div class="kpi_title">{{ chart.title }}</div>
+           <div class="kpi_data_container">
+            <div class="kpi_data">{{ chart.data.toLocaleString('en-IN', { style: "currency", currency: "INR" }) }}</div>
+           </div>
+        </div>
+      </ng-template>
+    </ng-template>
+  </ng-template>
+</div>
+
+

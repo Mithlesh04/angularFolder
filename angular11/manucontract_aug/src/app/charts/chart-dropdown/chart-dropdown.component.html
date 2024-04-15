@@ -1,0 +1,11 @@
+<div class="m-multiselect-dropdown">
+  <form [formGroup]="dropDownForm">
+    <ng-multiselect-dropdown
+      [placeholder]="'Select Charts'"
+      [settings]="dropdownSettings"
+      [data]="this.chartTypesMap"
+      formControlName="selectedItems"
+    >
+    </ng-multiselect-dropdown>
+  </form>
+</div>
